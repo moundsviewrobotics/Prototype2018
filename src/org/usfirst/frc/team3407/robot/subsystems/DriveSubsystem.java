@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import org.usfirst.frc.team3407.robot.commands.DriveCommand;
+import org.usfirst.frc.team3407.robot.commands.DriveInputDriveCommand;
+import org.usfirst.frc.team3407.robot.driveInput.DriveInput;
 
 /**
  * A Drive subsystem that  .... 
@@ -19,13 +20,15 @@ import org.usfirst.frc.team3407.robot.commands.DriveCommand;
 public class DriveSubsystem extends Subsystem {
 
 	private DifferentialDrive drive;
+	private DriveInput defaultDriveInput;
 	
-	public DriveSubsystem(SpeedController leftMotor, SpeedController rightMotor) {
-		drive = new DifferentialDrive(leftMotor, rightMotor);		
+	public DriveSubsystem(SpeedController leftMotor, SpeedController rightMotor, DriveInput defaultDriveInput) {
+		drive = new DifferentialDrive(leftMotor, rightMotor);	
+		this.defaultDriveInput = defaultDriveInput;
 	}
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveCommand(this));
+		setDefaultCommand(new DriveInputDriveCommand(this, defaultDriveInput));
 	}
 	
 	public void stop() {

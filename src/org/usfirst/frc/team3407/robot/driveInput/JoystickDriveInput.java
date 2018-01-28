@@ -8,9 +8,9 @@ public class JoystickDriveInput implements DriveInput {
 	private Joystick left;
 	private Joystick right;
 	
-	public JoystickDriveInput(int leftPort, int rightPort) {
-		left = new Joystick(leftPort);
-		right = new Joystick(rightPort);
+	public JoystickDriveInput(Joystick left, Joystick right) {
+		this.left = left;
+		this.right = right;
 	}
 	
 	@Override
@@ -18,4 +18,9 @@ public class JoystickDriveInput implements DriveInput {
 		return new TankDirective(left.getY(GenericHID.Hand.kRight), right.getY(GenericHID.Hand.kRight));
 	}
 
+	@Override
+	public boolean isComplete() {
+		// Always provide input 
+		return false;
+	}
 }

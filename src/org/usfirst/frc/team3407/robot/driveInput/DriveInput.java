@@ -4,4 +4,5 @@ public interface DriveInput {
 	
 	public TankDirective getTankDirective();
 
+	public boolean isComplete();
 }
