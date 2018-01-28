@@ -7,13 +7,14 @@
 
 package org.usfirst.frc.team3407.robot;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team3407.robot.commands.AutonomousTankPathDriveCommand;
+import org.usfirst.frc.team3407.robot.commands.AutonomousTankPathDriveCommand.TankPath;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3407.robot.subsystems.DriveSubsystem;
 
 /**
@@ -24,13 +25,13 @@ import org.usfirst.frc.team3407.robot.subsystems.DriveSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final DriveSubsystem driveSubsystem = new DriveSubsystem(
-			new SpeedControllerGroup(new Victor(0), new Victor(1)),
-			new SpeedControllerGroup(new Victor(2), new Victor(3)),
+	
+	private static final DriveSubsystem driveSubsystem = new DriveSubsystem(
+			RobotMap.DRIVE_TRAIN_LEFT_SPEED_CONTROLLER, RobotMap.DRIVE_TRAIN_RIGHT_SPEED_CONTROLLER,
 			OI.getDefaultDriveInput());
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	Command autonomousCommand;
+	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -38,9 +39,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//m_chooser.addDefault("Default Auto", new MyAutoCommand());
+		chooser.addDefault("Default Auto", new AutonomousTankPathDriveCommand(driveSubsystem, TankPath.DRIVE_TO_SWITCH));
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		//SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Auto mode", chooser);
 		System.out.println("Hagubui started");
 	}
 
@@ -72,7 +73,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		autonomousCommand = chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -81,9 +82,10 @@ public class Robot extends TimedRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 
+		System.out.println("Autonomous Command is " + autonomousCommand);
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -101,8 +103,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 	}
 

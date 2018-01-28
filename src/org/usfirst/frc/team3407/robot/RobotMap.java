@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team3407.robot;
 
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Victor;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -14,13 +18,13 @@ package org.usfirst.frc.team3407.robot;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
+	private static final int DRIVE_TRAIN_LEFT_MOTOR_A = 0;
+	private static final int DRIVE_TRAIN_LEFT_MOTOR_B = 1;
+	private static final int DRIVE_TRAIN_RIGHT_MOTOR_A = 2;
+	private static final int DRIVE_TRAIN_RIGHT_MOTOR_B = 3;
 
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
+	public static SpeedController DRIVE_TRAIN_LEFT_SPEED_CONTROLLER =
+			new SpeedControllerGroup(new Victor(DRIVE_TRAIN_LEFT_MOTOR_A), new Victor(DRIVE_TRAIN_LEFT_MOTOR_B));
+	public static SpeedController DRIVE_TRAIN_RIGHT_SPEED_CONTROLLER =
+			new SpeedControllerGroup(new Victor(DRIVE_TRAIN_RIGHT_MOTOR_A), new Victor(DRIVE_TRAIN_RIGHT_MOTOR_B));
 }
