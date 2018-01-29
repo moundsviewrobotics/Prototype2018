@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import org.usfirst.frc.team3407.robot.commands.AutonomousTankPathDriveCommand;
 import org.usfirst.frc.team3407.robot.commands.AutonomousTankPathDriveCommand.TankPath;
+import org.usfirst.frc.team3407.robot.commands.DriveInputDriveCommand;
+import org.usfirst.frc.team3407.robot.driveInput.NetworkTableDriveInput;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3407.robot.subsystems.DriveSubsystem;
 
@@ -116,10 +119,17 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
+	@Override
+	public void testInit() {
+		DriveInputDriveCommand testCommand = new DriveInputDriveCommand(driveSubsystem, new NetworkTableDriveInput("TestDriveInput"));
+		testCommand.start();
+	}
+
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
 	}
 }
